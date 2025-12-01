@@ -1,11 +1,40 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="pl-PL">
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Document</title>
+    <link rel="stylesheet" href="styles.css" />
+    <title>Główna</title>
   </head>
   <body>
     <h1>siema</h1>
+    <div id="przejscieNaStrony">
+      <input type="text" id="tekstInput" />
+      <input type="submit" id="btnPrzejdz" value="Przejdź" />
+    </div>
+    <script>
+      // utworzenie skrotow na input button i div id
+      const divPrzejscia = document.getElementById("przejscieNaStrony");
+      const input = document.getElementById("tekstInput");
+      const btn = document.getElementById("btnPrzejdz");
+
+      //utworzenie linku bez pokazania go
+      const link = document.createElement("a");
+      link.style.display = "none";
+      divPrzejscia.appendChild(link);
+      // haslo na strone kalendarza to bedzie KalendarzGoat112233
+      btn.addEventListener("click", function () {
+        const value = input.value;
+
+        let target = null;
+        if (value === "TysiaKalendarz2025") {
+          target = "kalendarzadwentowy.html";
+        } else {
+          target = "blednaproba.html";
+        }
+        link.href = target;
+        link.click();
+      });
+    </script>
   </body>
 </html>
