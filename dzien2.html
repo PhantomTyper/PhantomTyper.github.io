@@ -1,0 +1,283 @@
+<!DOCTYPE html>
+<html lang="pl">
+  <head>
+    <meta charset="UTF-8" />
+    <title>Rebus – 4 listopad 2022</title>
+    <style>
+      * {
+        box-sizing: border-box;
+      }
+
+      body {
+        margin: 0;
+        min-height: 100vh;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        font-family: system-ui, sans-serif;
+        background: radial-gradient(circle at top, #020617, #0f172a);
+        color: #e5e7eb;
+        overflow: hidden;
+      }
+
+      h1 {
+        margin: 0 0 8px;
+        font-size: 1.4rem;
+        text-align: center;
+      }
+
+      .rebus-box {
+        background: rgba(15, 23, 42, 0.96);
+        border-radius: 18px;
+        padding: 20px 24px 18px;
+        border: 1px solid rgba(148, 163, 184, 0.6);
+        box-shadow: 0 18px 40px rgba(0, 0, 0, 0.7);
+        max-width: 520px;
+        width: 100%;
+        text-align: center;
+        position: relative;
+        z-index: 2;
+      }
+
+      .rebus {
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: center;
+        gap: 12px;
+        margin: 10px 0 14px;
+        font-weight: 600;
+        font-size: 1.1rem;
+      }
+
+      .rebus-item {
+        padding: 8px 14px;
+        border-radius: 999px;
+        background: #0b1120;
+        border: 1px dashed rgba(148, 163, 184, 0.7);
+      }
+
+      .rebus-item.emoji {
+        font-size: 1.5rem;
+        border-style: solid;
+        border-color: rgba(248, 178, 41, 0.7);
+      }
+
+      .input-row {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 10px;
+        justify-content: center;
+        margin-top: 4px;
+      }
+
+      #answer {
+        flex: 1 1 220px;
+        max-width: 260px;
+        padding: 9px 12px;
+        border-radius: 999px;
+        border: 1px solid rgba(148, 163, 184, 0.8);
+        background: #020617;
+        color: #f9fafb;
+        outline: none;
+        font-size: 0.95rem;
+      }
+
+      #answer::placeholder {
+        color: #6b7280;
+      }
+
+      #answer:focus {
+        border-color: #f97316;
+        box-shadow: 0 0 0 1px rgba(249, 115, 22, 0.7);
+      }
+
+      #checkBtn {
+        flex: 0 0 auto;
+        padding: 9px 18px;
+        border-radius: 999px;
+        border: none;
+        cursor: pointer;
+        font-weight: 600;
+        letter-spacing: 0.04em;
+        text-transform: uppercase;
+        font-size: 0.8rem;
+        color: #111827;
+        background: linear-gradient(135deg, #f97316, #fbbf24);
+        box-shadow: 0 8px 20px rgba(248, 181, 71, 0.6);
+        transition: transform 0.15s ease, box-shadow 0.15s ease;
+      }
+
+      #checkBtn:hover {
+        transform: translateY(-1px);
+        box-shadow: 0 10px 26px rgba(248, 181, 71, 0.8);
+      }
+
+      #checkBtn:active {
+        transform: translateY(0);
+        box-shadow: 0 6px 16px rgba(0, 0, 0, 0.7);
+      }
+
+      #info {
+        margin-top: 8px;
+        font-size: 0.9rem;
+        min-height: 1.2em;
+      }
+
+      #info.ok {
+        color: #bbf7d0;
+      }
+
+      #info.bad {
+        color: #fecaca;
+      }
+
+      /* Spadające piksele serca i róż */
+
+      .falling-layer {
+        position: fixed;
+        inset: 0;
+        pointer-events: none;
+        overflow: hidden;
+        z-index: 1;
+      }
+
+      .pixel {
+        position: absolute;
+        width: 40px;
+        height: 40px;
+        background-image: url("rose.jpg"); /* nazwa pliku z różą */
+        background-size: contain;
+        background-repeat: no-repeat;
+        background-position: center;
+        opacity: 0;
+        transform: translateY(-20px);
+        animation: fall 6s linear infinite;
+        animation-play-state: paused;
+      }
+
+      .pixel.rose {
+        position: absolute;
+        width: 40px;
+        height: 40px;
+        background-image: url("heart.jpg"); /* nazwa pliku z różą */
+        background-size: contain;
+        background-repeat: no-repeat;
+        background-position: center;
+        opacity: 0;
+        transform: translateY(-20px);
+        animation: fall 6s linear infinite;
+        animation-play-state: paused;
+      }
+
+      /* kształt serca / róży z pikseli – ustawiane przez data-shape w JS */
+
+      @keyframes fall {
+        0% {
+          transform: translateY(-40px) translateX(0) scale(1);
+          opacity: 0;
+        }
+        10% {
+          opacity: 1;
+        }
+        70% {
+          transform: translateY(100vh) translateX(15px) scale(1.15);
+          opacity: 1;
+        }
+        100% {
+          transform: translateY(115vh) translateX(25px) scale(0.8);
+          opacity: 0;
+        }
+      }
+
+      .show-love .pixel {
+        animation-play-state: running;
+      }
+
+      .hidden {
+        display: none;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="rebus-box">
+      <h1>Najpierw prosta zagadka xdddd</h1>
+      <!-- prosty rebus na „4 listopad 2022” – możesz zmienić opisy -->
+      <div class="rebus">
+        <div class="rebus-item">data rocznicy..</div>
+      </div>
+      <div class="input-row">
+        <input id="answer" type="text" placeholder="Tutaj wpisz odpowiedź..." />
+        <button id="checkBtn">Sprawdź</button>
+      </div>
+      <div id="info"></div>
+    </div>
+
+    <!-- warstwa animacji pikseli -->
+    <div class="falling-layer" id="fallingLayer"></div>
+
+    <script>
+      const answerInput = document.getElementById("answer");
+      const checkBtn = document.getElementById("checkBtn");
+      const info = document.getElementById("info");
+      const fallingLayer = document.getElementById("fallingLayer");
+      const body = document.body;
+
+      // akceptowane odpowiedzi (możesz dopisać swoje warianty)
+      const validAnswers = [
+        "4 listopad 2022",
+        "4 listopada 2022",
+        "04 listopad 2022",
+        "04 listopada 2022",
+        "04.11.2022",
+        "4.11.2022",
+      ];
+
+      checkBtn.addEventListener("click", () => {
+        const value = answerInput.value.trim().toLowerCase();
+
+        const ok = validAnswers.some((a) => a.toLowerCase() === value);
+
+        if (ok) {
+          info.textContent = "Brawo! To poprawna odpowiedź ❤";
+          info.className = "ok";
+          startLoveAnimation();
+        } else {
+          info.textContent = "Spróbuj jeszcze raz…";
+          info.className = "bad";
+        }
+      });
+
+      // prosta animacja pikseli serc i róż
+      function startLoveAnimation() {
+        if (body.classList.contains("show-love")) return; // już działa
+
+        // stworzenie kilkudziesięciu „pikseli”
+        const total = 60;
+        for (let i = 0; i < total; i++) {
+          const pixel = document.createElement("div");
+          pixel.classList.add("pixel");
+
+          // co drugi piksel jako „róża”
+          if (i % 3 === 0) {
+            pixel.classList.add("rose");
+          }
+
+          // losowa pozycja startowa i opóźnienie
+          const left = Math.random() * 100; // %
+          const delay = Math.random() * 4; // 0–4s
+          const duration = 3.5 + Math.random() * 2; // 3.5–5.5s
+
+          pixel.style.left = left + "vw";
+          pixel.style.animationDelay = delay + "s";
+          pixel.style.animationDuration = duration + "s";
+
+          // pikselowy „kształt” uzyskamy przez skalowanie w JS (opcjonalnie)
+          fallingLayer.appendChild(pixel);
+        }
+
+        body.classList.add("show-love");
+      }
+    </script>
+  </body>
+</html>
